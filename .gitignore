@@ -54,4 +54,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prettier
+.prettierrc
+
 # End of https://www.toptal.com/developers/gitignore/api/go,nextjs
