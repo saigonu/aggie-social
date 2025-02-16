@@ -17,6 +17,9 @@
 # Go workspace file
 go.work
 
+# air toml
+.air.toml
+
 ### NextJS ###
 # dependencies
 /node_modules

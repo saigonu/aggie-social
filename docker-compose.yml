@@ -1,20 +1,13 @@
 version: '3.9'
 
 services:
-  app:
-    build: .
-    container_name: aggiesocial
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    env_file:
-      - .envrc
   db:
     image: postgres:16.3
     container_name: postgres-db
-    env_file:
-      - .envrc
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
