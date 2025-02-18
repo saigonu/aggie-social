@@ -137,6 +137,30 @@ func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request
 
 }
 
+func (app *application) createCommentHandler(w http.ResponseWriter, r *http.Request) {
+	post := getPostFromCtx(r)
+
+	var payload store.Comment
+	if err := readJSON(w, r, &payload); err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	payload.PostID = post.ID
+
+	ctx := r.Context()
+
+	if err := app.store.Comments.CreateComment(ctx, &payload); err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+
+	if err := app.jsonResponse(w, http.StatusCreated, payload); err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+}
+
 func (app *application) postsContextMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		idParam := chi.URLParam(r, "postID")
