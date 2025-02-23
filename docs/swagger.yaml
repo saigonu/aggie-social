@@ -1,0 +1,18 @@
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for AggieSocial, a social network for Aggies
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: AggieSocial
+paths: {}
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authozization
+    type: apiKey
+swagger: "2.0"
