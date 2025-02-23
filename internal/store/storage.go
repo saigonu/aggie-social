@@ -19,6 +19,7 @@ type Storage struct {
 		Create(context.Context, *Post) error
 		Delete(context.Context, int64) error
 		Update(context.Context, *Post) error
+		GetUserFeed(context.Context, int64, PaginatedFeedQuery) ([]PostWithMetadata, error)
 	}
 	Users interface {
 		GetByID(context.Context, int64) (*User, error)
@@ -26,7 +27,7 @@ type Storage struct {
 	}
 	Comments interface {
 		GetbyPostID(context.Context, int64) ([]Comment, error)
-		CreateComment(context.Context, *Comment) error
+		Create(context.Context, *Comment) error
 	}
 	Followers interface {
 		Follow(ctx context.Context, followerID, userID int64) error

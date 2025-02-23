@@ -53,7 +53,6 @@ func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request
 }
 
 func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
-
 	post := getPostFromCtx(r)
 
 	comments, err := app.store.Comments.GetbyPostID(r.Context(), post.ID)
@@ -98,7 +97,6 @@ type UpdatePostPayload struct {
 }
 
 func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request) {
-
 	post := getPostFromCtx(r)
 
 	var payload UpdatePostPayload
@@ -134,7 +132,6 @@ func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request
 	if err := app.jsonResponse(w, http.StatusOK, post); err != nil {
 		app.internalServerError(w, r, err)
 	}
-
 }
 
 func (app *application) createCommentHandler(w http.ResponseWriter, r *http.Request) {
@@ -150,7 +147,7 @@ func (app *application) createCommentHandler(w http.ResponseWriter, r *http.Requ
 
 	ctx := r.Context()
 
-	if err := app.store.Comments.CreateComment(ctx, &payload); err != nil {
+	if err := app.store.Comments.Create(ctx, &payload); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}

@@ -33,7 +33,7 @@ func Seed(store store.Storage) {
 
 	comments := generateComments(500, users, posts)
 	for _, comment := range comments {
-		if err := store.Comments.CreateComment(ctx, comment); err != nil {
+		if err := store.Comments.Create(ctx, comment); err != nil {
 			log.Println("Error creating comment:", err)
 			return
 		}
