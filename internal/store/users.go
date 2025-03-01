@@ -3,9 +3,15 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
+)
+
+var (
+	ErrDuplicateEmail    = errors.New("User with that email already exists")
+	ErrDuplicateUsername = errors.New("User with that username already exists")
 )
 
 type User struct {
@@ -57,7 +63,14 @@ func (s *UserStore) Create(ctx context.Context, tx *sql.Tx, user *User) error {
 		&user.CreatedAt,
 	)
 	if err != nil {
-		return err
+		switch {
+		case err.Error() == `pq: duplicate key value violates unique constraint "users_email_key"`:
+			return ErrDuplicateEmail
+		case err.Error() == `pq: duplicate key value violates unique constraint "users_username_key"`:
+			return ErrDuplicateUsername
+		default:
+			return err
+		}
 	}
 
 	return nil

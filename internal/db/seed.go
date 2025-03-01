@@ -2,22 +2,23 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"log"
-
 	"math/rand"
 
 	"github.com/go-faker/faker/v4"
 	"github.com/saigonu/aggie-social/internal/store"
 )
 
-func Seed(store store.Storage) {
-
+func Seed(store store.Storage, db *sql.DB) {
 	ctx := context.Background()
 
 	users := generateUsers(100)
+	tx, _ := db.BeginTx(ctx, nil)
 
 	for _, user := range users {
-		if err := store.Users.Create(ctx, user); err != nil {
+		if err := store.Users.Create(ctx, tx, user); err != nil {
+			_ = tx.Rollback()
 			log.Println("Error creating user:", err)
 			return
 		}
