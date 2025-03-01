@@ -40,7 +40,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	ctx := r.Context()
 
-	plainToken := uuid.Get().String()
+	plainToken := uuid.New().String()
 
 	// store the token
 	hash := sha256.Sum256([]byte(plainToken))
